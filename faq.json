@@ -1,0 +1,362 @@
+[
+  {
+    "category": "Claims",
+    "question": "How do I submit a new claim?",
+    "answer": "Log in to your account, navigate to the Claims section, and click 'Submit new claim'. Fill in all required fields and attach supporting documents before submission.",
+    "image": "https://example.com/images/submit-claim.png",
+    "link": "https://example.com/docs/submit-claim",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Claims",
+    "question": "How can I check the status of my claim?",
+    "answer": "Go to the Claims page in your dashboard and select 'Track claim status'. You will see your claim’s current stage and any pending actions.",
+    "image": "https://example.com/images/track-claim.png",
+    "link": "https://example.com/docs/track-claim",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Claims",
+    "question": "What documents are required to submit a claim?",
+    "answer": "Typically, you must provide proof of loss, invoices, identification, and any relevant receipts. Requirements vary by claim type.",
+    "image": "https://example.com/images/claim-documents.png",
+    "link": "https://example.com/docs/claim-documents",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Claims",
+    "question": "Can I edit a submitted claim?",
+    "answer": "You can edit claims only if they are still under review. Once processing begins, contact support for assistance.",
+    "image": "https://example.com/images/edit-claim.png",
+    "link": "https://example.com/docs/edit-claim",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Claims",
+    "question": "How long does it take to process a claim?",
+    "answer": "Processing times vary by claim type but typically range from 3 to 10 business days after all documents are received.",
+    "image": null,
+    "link": "https://example.com/docs/claim-processing-times",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Payments",
+    "question": "How do I add a new payment method?",
+    "answer": "Go to the Payment settings page and select 'Add payment method'. Enter your bank or card details and save your preferences.",
+    "image": "https://example.com/images/add-payment.png",
+    "link": "https://example.com/docs/add-payment",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Payments",
+    "question": "When will I receive my reimbursement?",
+    "answer": "Once your claim is approved, reimbursements are typically issued within 2 to 5 business days depending on your payment method.",
+    "image": "https://example.com/images/reimbursement.png",
+    "link": "https://example.com/docs/reimbursement-timeline",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Payments",
+    "question": "Can I change my preferred payout account?",
+    "answer": "Yes. In Payment settings, click 'Edit payout account' and update your bank details before your next reimbursement cycle.",
+    "image": "https://example.com/images/update-bank.png",
+    "link": "https://example.com/docs/update-bank",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Payments",
+    "question": "Why was my payment declined?",
+    "answer": "Payments can fail due to incorrect account details, insufficient funds, or network issues. Verify details and try again.",
+    "image": "https://example.com/images/payment-failed.png",
+    "link": "https://example.com/docs/payment-errors",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Payments",
+    "question": "How do I view my payment history?",
+    "answer": "Go to the Payments section and click 'Transaction history' to view all completed and pending payments.",
+    "image": "https://example.com/images/payment-history.png",
+    "link": "https://example.com/docs/payment-history",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Accounts",
+    "question": "How do I register a new user account?",
+    "answer": "Visit the registration page, fill in your details, and verify your email address to activate your account.",
+    "image": "https://example.com/images/register-account.png",
+    "link": "https://example.com/docs/register-account",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Accounts",
+    "question": "How can I reset my password?",
+    "answer": "Click 'Forgot password' on the login page, enter your registered email, and follow the reset instructions.",
+    "image": "https://example.com/images/reset-password.png",
+    "link": "https://example.com/docs/reset-password",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Accounts",
+    "question": "Can I update my contact information?",
+    "answer": "Yes. Go to Profile settings and update your phone number, address, or email details. Save changes when complete.",
+    "image": "https://example.com/images/update-contact.png",
+    "link": "https://example.com/docs/update-contact",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Accounts",
+    "question": "How can I deactivate my account?",
+    "answer": "In Account settings, click 'Deactivate account' and confirm the action. You can reactivate anytime by logging back in.",
+    "image": "https://example.com/images/deactivate-account.png",
+    "link": "https://example.com/docs/deactivate-account",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Accounts",
+    "question": "Why can't I log in to my account?",
+    "answer": "Ensure your credentials are correct and your account is active. If issues persist, reset your password or contact support.",
+    "image": "https://example.com/images/login-error.png",
+    "link": "https://example.com/docs/login-help",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Security",
+    "question": "How is my personal data protected?",
+    "answer": "Your data is secured using encryption, secure APIs, and strict access controls compliant with data protection standards.",
+    "image": "https://example.com/images/data-security.png",
+    "link": "https://example.com/docs/security",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Security",
+    "question": "Do you support two-factor authentication?",
+    "answer": "Yes. Enable 2FA under Account Security settings using an authenticator app or SMS verification.",
+    "image": "https://example.com/images/2fa-setup.png",
+    "link": "https://example.com/docs/2fa-setup",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Security",
+    "question": "What should I do if I suspect fraud?",
+    "answer": "Immediately report suspected fraud through the Help Center or contact our Fraud Prevention team at security@example.com.",
+    "image": "https://example.com/images/report-fraud.png",
+    "link": "https://example.com/docs/report-fraud",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Security",
+    "question": "Are payment details stored securely?",
+    "answer": "Yes. All payment data is tokenized and stored using PCI-DSS compliant encryption methods.",
+    "image": null,
+    "link": "https://example.com/docs/payment-security",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Security",
+    "question": "How can I view recent login activity?",
+    "answer": "In Security settings, select 'Login history' to view your recent sessions and device details.",
+    "image": "https://example.com/images/login-history.png",
+    "link": "https://example.com/docs/login-history",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Policy",
+    "question": "How do I update my policy information?",
+    "answer": "Go to the Policy section and select 'Edit policy'. You can update contact or coverage details depending on your plan.",
+    "image": "https://example.com/images/update-policy.png",
+    "link": "https://example.com/docs/update-policy",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Policy",
+    "question": "Can I download my policy documents?",
+    "answer": "Yes. Visit the Policy page and click 'Download documents' to save a PDF copy of your active policy.",
+    "image": "https://example.com/images/download-policy.png",
+    "link": "https://example.com/docs/download-policy",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Policy",
+    "question": "How can I renew my policy?",
+    "answer": "You can renew your policy online by selecting 'Renew policy' in your dashboard and confirming payment details.",
+    "image": "https://example.com/images/renew-policy.png",
+    "link": "https://example.com/docs/renew-policy",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Policy",
+    "question": "What happens if I miss my policy renewal date?",
+    "answer": "If your policy lapses, you may lose coverage temporarily. Renew as soon as possible or contact support for reinstatement.",
+    "image": null,
+    "link": "https://example.com/docs/policy-renewal",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Policy",
+    "question": "How can I cancel my policy?",
+    "answer": "Go to your policy settings and click 'Cancel policy'. Confirm the cancellation and review any refund eligibility.",
+    "image": "https://example.com/images/cancel-policy.png",
+    "link": "https://example.com/docs/cancel-policy",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Technical Support",
+    "question": "How do I contact technical support?",
+    "answer": "Use the Help Center chat or email support@example.com. Our team responds within 24 hours on business days.",
+    "image": null,
+    "link": "https://example.com/support",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Technical Support",
+    "question": "Where can I find troubleshooting guides?",
+    "answer": "Visit our online Help Center and select 'Troubleshooting' for common issues and solutions.",
+    "image": "https://example.com/images/troubleshooting.png",
+    "link": "https://example.com/docs/troubleshooting",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Technical Support",
+    "question": "Why is the claim portal not loading?",
+    "answer": "Try clearing your browser cache, disabling extensions, or using a different browser. Check system status if the issue continues.",
+    "image": "https://example.com/images/portal-error.png",
+    "link": "https://example.com/docs/portal-issues",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Technical Support",
+    "question": "How do I update the mobile app?",
+    "answer": "Open the App Store or Google Play, search for the app name, and tap 'Update'.",
+    "image": "https://example.com/images/update-app.png",
+    "link": "https://example.com/docs/update-app",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Technical Support",
+    "question": "What should I do if I see an error code?",
+    "answer": "Check the error code reference in our documentation for the meaning and suggested resolution steps.",
+    "image": "https://example.com/images/error-code.png",
+    "link": "https://example.com/docs/error-codes",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Integrations",
+    "question": "Does the system integrate with payroll platforms?",
+    "answer": "Yes. We support API integrations with major payroll and HR platforms for automated claims processing.",
+    "image": "https://example.com/images/payroll-integration.png",
+    "link": "https://example.com/docs/payroll-integration",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Integrations",
+    "question": "Can I connect with third-party accounting tools?",
+    "answer": "Yes. Use the Integrations tab to authorize access and sync payment data with external accounting systems.",
+    "image": "https://example.com/images/accounting-integration.png",
+    "link": "https://example.com/docs/accounting-integration",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Integrations",
+    "question": "Is there an API for developers?",
+    "answer": "Yes. Developers can use our REST API for claim creation, status updates, and payment tracking with secure authentication.",
+    "image": "https://example.com/images/api-docs.png",
+    "link": "https://example.com/docs/api",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Integrations",
+    "question": "How do I generate an API key?",
+    "answer": "Log in as an admin, go to Developer settings, and click 'Generate new API key'. Keep it confidential.",
+    "image": "https://example.com/images/api-key.png",
+    "link": "https://example.com/docs/api-keys",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Integrations",
+    "question": "Can I revoke API access?",
+    "answer": "Yes. Go to the API management console and click 'Revoke' next to the key you wish to disable.",
+    "image": "https://example.com/images/revoke-api.png",
+    "link": "https://example.com/docs/revoke-api",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Mobile App",
+    "question": "Is there a mobile app available?",
+    "answer": "Yes. Our mobile app is available for both Android and iOS. Search for our company name in your app store.",
+    "image": "https://example.com/images/mobile-app.png",
+    "link": "https://example.com/docs/mobile-app",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Mobile App",
+    "question": "How can I enable biometric login?",
+    "answer": "Open app settings, tap 'Security', and enable Face ID or fingerprint authentication for faster sign-in.",
+    "image": "https://example.com/images/biometric-login.png",
+    "link": "https://example.com/docs/biometric-login",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Mobile App",
+    "question": "Can I submit claims through the app?",
+    "answer": "Yes. Tap 'Submit claim', upload photos of receipts, and confirm your submission from your mobile device.",
+    "image": "https://example.com/images/mobile-claim.png",
+    "link": "https://example.com/docs/mobile-claims",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Mobile App",
+    "question": "How do I enable push notifications?",
+    "answer": "In app settings, go to Notifications and toggle on push alerts for claim updates and payments.",
+    "image": "https://example.com/images/push-notifications.png",
+    "link": "https://example.com/docs/push-notifications",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Mobile App",
+    "question": "Can I use the app offline?",
+    "answer": "Some features like claim drafting are available offline. Submissions and updates require internet access.",
+    "image": "https://example.com/images/offline-mode.png",
+    "link": "https://example.com/docs/offline-mode",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Notifications",
+    "question": "How do I manage email alerts?",
+    "answer": "Go to Notification settings in your account and choose which alerts you wish to receive via email or SMS.",
+    "image": "https://example.com/images/email-alerts.png",
+    "link": "https://example.com/docs/notifications",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Notifications",
+    "question": "Why am I not receiving updates?",
+    "answer": "Check your spam folder and verify your email address in your profile settings. Add our domain to your safe sender list.",
+    "image": "https://example.com/images/email-troubleshoot.png",
+    "link": "https://example.com/docs/email-issues",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Notifications",
+    "question": "Can I receive SMS notifications?",
+    "answer": "Yes. Enable SMS alerts in Notification preferences and verify your mobile number.",
+    "image": "https://example.com/images/sms-alerts.png",
+    "link": "https://example.com/docs/sms-alerts",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Notifications",
+    "question": "How do I disable notifications?",
+    "answer": "Go to Notification settings and toggle off email, SMS, or in-app notifications as preferred.",
+    "image": "https://example.com/images/disable-notifications.png",
+    "link": "https://example.com/docs/disable-notifications",
+    "last_updated": "2025-11-02"
+  },
+  {
+    "category": "Notifications",
+    "question": "Can I customize which claims trigger alerts?",
+    "answer": "Yes. Choose specific claim categories in your notification preferences to control which alerts you receive.",
+    "image": "https://example.com/images/custom-alerts.png",
+    "link": "https://example.com/docs/custom-alerts",
+    "last_updated": "2025-11-02"
+  }
+]

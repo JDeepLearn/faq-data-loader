@@ -1,0 +1,59 @@
+
+spring:
+  application:
+    name: cb-faq-uploader
+
+  couchbase:
+    connection-string: ${CB_CONN:couchbase://localhost}
+    username: ${CB_USERNAME:admin}
+    password: ${CB_PASSWORD:password}
+
+    env:
+      timeouts:
+        connect: ${CB_TIMEOUT_CONNECT:20s}
+        key-value: ${CB_TIMEOUT_KV:5s}
+        query: ${CB_TIMEOUT_QUERY:30s}
+
+  data:
+    couchbase:
+      bucket-name: ${CB_BUCKET:faq_bucket}
+      scope-name: ${CB_SCOPE:faq_scope}
+      auto-index: false
+
+# Application settings
+uploader:
+  collection: ${CB_COLLECTION:faqs}
+  faq-json: ${FAQ_JSON:faq.json}
+
+# Embedding service
+embedding:
+  base-url: ${EMBEDDING_BASE_URL:http://localhost:8000}   # e.g., your FastAPI service
+  endpoint: ${EMBEDDING_ENDPOINT:/embed}             # POST endpoint
+  timeout: ${EMBEDDING_TIMEOUT:5s}                        # end-to-end timeout
+  dim: ${EMBEDDING_DIM:1024}                               # dimension of returned vector
+  fail-open: ${EMBEDDING_FAIL_OPEN:false}                 # if true: proceed without vector on failure
+
+# Couchbase FTS vector index management
+cb:
+  search:
+    host: ${CB_SEARCH_HOST:localhost}                     # host for FTS REST (usually same as cluster node)
+    port: ${CB_SEARCH_PORT:8094}                         # FTS REST port
+  vector:
+    index-name: ${CB_VECTOR_INDEX:faq_vectors}            # FTS index name
+    similarity: ${CB_VECTOR_SIMILARITY:cosine}            # cosine|dot_product|euclidean
+    ensure-index: ${CB_VECTOR_ENSURE_INDEX:true}          # auto-create on startup
+  tls:
+    enabled: false          # 🔒 explicitly disabled for local
+    trust-cert-path: ""     # no trust store required
+  retry:
+    best-effort: true
+  compression:
+    enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.example.faq: INFO
+    com.couchbase.client: INFO
+server:
+  port: 9080

@@ -1,0 +1,95 @@
+############################
+# Build output
+############################
+target/
+build/
+out/
+classes/
+*.class
+*.log
+*.tmp
+*.bak
+
+############################
+# Version control
+############################
+.git/
+.gitignore
+.gitattributes
+.gitmodules
+
+############################
+# IDE / Editor metadata
+############################
+.idea/
+.vscode/
+*.iml
+*.iws
+.project
+.classpath
+.settings/
+
+############################
+# OS and local environment
+############################
+.DS_Store
+Thumbs.db
+desktop.ini
+
+############################
+# Test & reports
+############################
+test-output/
+surefire-reports/
+failsafe-reports/
+reports/
+*.coverage
+testcontainers-*
+
+############################
+# Node / Frontend
+############################
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+############################
+# Docker / Compose / temp
+############################
+.dockerignore
+docker-compose*.yml
+Dockerfile.local
+Dockerfile.dev
+*.pid
+tmp/
+logs/
+cb-backups/
+cb-export/
+couchbase_data/
+
+############################
+# Secrets and environment files
+############################
+.env
+*.env.*
+*.key
+*.pem
+*.p12
+*.crt
+*.csr
+*.secret
+*.credentials
+*.keystore
+*.truststore
+
+############################
+# Maven wrapper / cache (optional)
+############################
+.mvn/
+mvnw.cmd
+mvnw
+.settings.xml
+.cache/
+target/
