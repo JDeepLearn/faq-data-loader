@@ -1,89 +1,65 @@
 package io.github.jdeeplearn.rag.config;
 
-import com.couchbase.client.core.retry.BestEffortRetryStrategy;
-import com.couchbase.client.core.retry.FailFastRetryStrategy;
-import com.couchbase.client.core.retry.RetryStrategy;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
-import com.couchbase.client.java.env.ClusterEnvironment;
+import com.couchbase.client.java.Collection;
+import com.couchbase.client.java.Scope;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 
 /**
- * Couchbase environment configuration using the 3.9+ Consumer-based builder API.
- * TLS is optional and disabled by default for local use.
+ * Infrastructure configuration for Couchbase.
+ *
+ * Responsibilities:
+ *  - Connect to Couchbase Cluster
+ *  - Expose a Collection bean for faq_bucket/faq_scope/faqs
  */
 @Configuration
 public class CouchbaseConfig {
 
     private static final Logger log = LogManager.getLogger(CouchbaseConfig.class);
 
-    @Bean
-    public ClusterEnvironment clusterEnvironment(
-            @Value("${spring.couchbase.env.timeouts.connect:20s}") Duration connectTimeout,
-            @Value("${spring.couchbase.env.timeouts.key-value:5s}") Duration kvTimeout,
-            @Value("${spring.couchbase.env.timeouts.query:30s}") Duration queryTimeout,
-            @Value("${cb.tls.enabled:false}") boolean tlsEnabled,
-            @Value("${cb.tls.trust-cert-path:}") String trustCertPath,
-            @Value("${cb.retry.best-effort:true}") boolean bestEffortRetry,
-            @Value("${cb.compression.enabled:true}") boolean compressionEnabled
-    ) {
+    @Value("${spring.couchbase.connection-string}")
+    private String connectionString;
 
-        // ---- Choose retry strategy (Best-Effort vs Fail-Fast) ----
-        final RetryStrategy retry = bestEffortRetry
-                ? BestEffortRetryStrategy.INSTANCE
-                : FailFastRetryStrategy.INSTANCE;
+    @Value("${spring.couchbase.username}")
+    private String username;
 
-        // ---- Build environment with Consumer-based sub-builders (recommended in SDK 3.9) ----
-        ClusterEnvironment env = ClusterEnvironment.builder()
-                // TLS / Security (Consumer overload, not deprecated)
-                .securityConfig(sc -> {
-                    sc.enableTls(tlsEnabled);
-                    if (tlsEnabled) {
-                        if (trustCertPath != null && !trustCertPath.isBlank()) {
-                            Path caPath = Path.of(trustCertPath);
-                            if (!Files.exists(caPath)) {
-                                throw new IllegalStateException("TLS trust certificate not found: " + trustCertPath);
-                            }
-                            sc.trustCertificate(caPath);
-                            log.info("TLS enabled with trust certificate: {}", trustCertPath);
-                        } else {
-                            log.info("TLS enabled using default JVM trust store.");
-                        }
-                    } else {
-                        log.info("TLS explicitly disabled for local development (using couchbase:// scheme).");
-                    }
-                })
-                // Compression
-                .compressionConfig(cc -> cc.enable(compressionEnabled))
-                // Timeouts
-                .timeoutConfig(tc -> tc
-                        .connectTimeout(connectTimeout)
-                        .kvTimeout(kvTimeout)
-                        .queryTimeout(queryTimeout))
-                // I/O tuning
-                .ioConfig(io -> io.numKvConnections(2))
-                // Retry strategy
-                .retryStrategy(retry)
-                .build();
+    @Value("${spring.couchbase.password}")
+    private String password;
 
-        log.info("ClusterEnvironment initialized (TLS={}, Retry={}, Compression={}, ConnectTimeout={})",
-                tlsEnabled, retry.getClass().getSimpleName(), compressionEnabled, connectTimeout);
-        return env;
+    @Value("${spring.data.couchbase.bucket-name}")
+    private String bucketName;
+
+    @Value("${spring.data.couchbase.scope-name}")
+    private String scopeName;
+
+    @Value("${uploader.collection:faqs}")
+    private String collectionName;
+
+    @Value("${spring.couchbase.ready-timeout-seconds:10}")
+    private int readyTimeoutSeconds;
+
+    @Bean(destroyMethod = "disconnect")
+    public Cluster couchbaseCluster() {
+        log.info("Connecting to Couchbase at {}", connectionString);
+        Cluster cluster = Cluster.connect(connectionString, username, password);
+        cluster.waitUntilReady(Duration.ofSeconds(readyTimeoutSeconds));
+        return cluster;
     }
 
     @Bean
-    public Bucket faqBucket(Cluster cluster,
-                            @Value("${spring.data.couchbase.bucket-name}") String bucketName) {
+    public Collection faqCollection(Cluster cluster) {
         Bucket bucket = cluster.bucket(bucketName);
-        bucket.waitUntilReady(java.time.Duration.ofSeconds(20));
-        return bucket;
+        bucket.waitUntilReady(Duration.ofSeconds(readyTimeoutSeconds));
+        Scope scope = bucket.scope(scopeName);
+        Collection collection = scope.collection(collectionName);
+        log.info("Using Couchbase collection {}/{}/{}", bucketName, scopeName, collectionName);
+        return collection;
     }
 }

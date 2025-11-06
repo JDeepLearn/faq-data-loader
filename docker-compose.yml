@@ -1,29 +1,55 @@
-version: "3.9"
-
 services:
   couchbase:
     image: couchbase/server:8.0.0
     container_name: couchbase
-    restart: unless-stopped
-    hostname: couchbase.local
+    hostname: couchbase
     ports:
-      - "8091:8091"
-      - "8092:8092"
-      - "8093:8093"
-      - "8094:8094"
-      - "11210:11210"
+      - "8091:8091"   # Web console / REST
+      - "8092:8092"   # Views
+      - "8093:8093"   # Query service (N1QL)
+      - "8094:8094"   # Full Text Search / Vector Search
+      - "11210:11210" # Data service
     environment:
-      CB_ADMIN_USER: admin
-      CB_ADMIN_PASS: password
-      CB_BUCKET: faq_bucket
-      CB_SCOPE: faq_scope
-      CB_COLLECTION: faqs
+      COUCHBASE_ADMINISTRATOR_USERNAME: admin
+      COUCHBASE_ADMINISTRATOR_PASSWORD: password
     volumes:
       - ./data:/opt/couchbase/var
-      - ./init:/init
-    entrypoint: ["/init/entrypoint.sh"]
+      - ./init/init.sh:/docker-entrypoint-initdb.d/init.sh
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8091/pools"]
-      interval: 10s
+      interval: 20s
       timeout: 5s
-      retries: 15
+      retries: 10
+
+  embedding-service:
+    image: tiangolo/uvicorn-gunicorn-fastapi:python3.11
+    container_name: embedding-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./embedding_mock:/app
+    environment:
+      MODULE_NAME: main
+      VARIABLE_NAME: app
+      PORT: 8000
+
+  faq-data-loader:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: faq-data-loader
+    depends_on:
+      couchbase:
+        condition: service_healthy
+      embedding-service:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      COUCHBASE_CONNECTION_STRING: couchbase://couchbase
+      COUCHBASE_USERNAME: admin
+      COUCHBASE_PASSWORD: password
+      COUCHBASE_FTS_URL: http://couchbase:8094
+      EMBEDDING_SERVICE_URL: http://embedding-service:8000/embed
+    command: ["java", "-jar", "app.jar"]
