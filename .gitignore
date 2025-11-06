@@ -65,7 +65,6 @@ docker-compose.override.yml
 ############################
 # Couchbase / Database dumps
 ############################
-init/
 cb-backups/
 cb-export/
 couchbase_data/
