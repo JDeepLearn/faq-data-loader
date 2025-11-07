@@ -1,28 +1,23 @@
 package io.github.jdeeplearn.rag.service;
 
+import io.github.jdeeplearn.rag.model.EmbeddingRequest;
+import io.github.jdeeplearn.rag.model.EmbeddingResponse;
+import io.github.jdeeplearn.rag.model.EmbeddingResponse.EmbeddingItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-import reactor.netty.http.client.HttpClient;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Objects;
 
 /**
- * EmbeddingClient
- *
- * Calls an external embedding service and returns float[] vectors.
- *
- * Production considerations:
- *  - Timeouts configured via reactor-netty.
- *  - Model and provider configurable via properties.
- *  - Dimension mismatch logged and monitored.
+ * Embedding client for Granite-compatible /embed API.
+ * Uses strongly-typed POJOs for request/response.
  */
 @Component
 public class EmbeddingClient {
@@ -30,94 +25,72 @@ public class EmbeddingClient {
     private static final Logger log = LogManager.getLogger(EmbeddingClient.class);
 
     private final WebClient webClient;
-    private final int expectedDim;
     private final String modelName;
     private final String provider;
-    private final Duration requestTimeout;
+    private final int timeoutMs;
 
     public EmbeddingClient(
-            @Value("${embedding.service-url:http://localhost:8000/embed}") String serviceUrl,
-            @Value("${embedding.dim:1024}") int expectedDim,
-            @Value("${embedding.model-name:e5-large-v2}") String modelName,
-            @Value("${embedding.provider:intfloat}") String provider,
-            @Value("${embedding.timeout-ms:5000}") long timeoutMs
+            @Value("${embedding.service-url:http://localhost:8000/}") String baseUrl,
+            @Value("${embedding.model-name:granite-embedding-english-r2}") String modelName,
+            @Value("${embedding.provider:ibm-granite}") String provider,
+            @Value("${embedding.timeout-ms:5000}") int timeoutMs
     ) {
-        this.expectedDim = expectedDim;
+        this.webClient = WebClient.builder()
+                .baseUrl(baseUrl)
+                .build();
         this.modelName = modelName;
         this.provider = provider;
-        this.requestTimeout = Duration.ofMillis(timeoutMs);
-
-        HttpClient httpClient = HttpClient.create()
-                .responseTimeout(this.requestTimeout);
-
-        this.webClient = WebClient.builder()
-                .baseUrl(serviceUrl)
-                .clientConnector(new ReactorClientHttpConnector(httpClient))
-                .build();
-
-        log.info("EmbeddingClient initialized (provider={}, model={}, dim={}, url={}, timeoutMs={})",
-                provider, modelName, expectedDim, serviceUrl, timeoutMs);
+        this.timeoutMs = timeoutMs;
     }
 
     /**
-     * Generate an embedding vector for the given text.
-     *
-     * @param text input text (typically the FAQ question)
-     * @return float[] embedding vector
+     * Generates an embedding vector for a single text input.
      */
     public float[] embed(String text) {
-        Objects.requireNonNull(text, "text must not be null");
-        long start = System.nanoTime();
+        if (text == null || text.isBlank()) {
+            log.warn("Skipping embedding for blank text");
+            return new float[0];
+        }
 
         try {
+            EmbeddingRequest request = EmbeddingRequest.of(text);
+
             EmbeddingResponse response = webClient.post()
+                    .uri("/embed")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .bodyValue(new EmbeddingRequest(modelName, provider, text))
+                    .bodyValue(request)
                     .retrieve()
                     .bodyToMono(EmbeddingResponse.class)
-                    .timeout(requestTimeout)
+                    .timeout(Duration.ofMillis(timeoutMs))
                     .block();
 
-            if (response == null || response.embedding == null || response.embedding.isEmpty()) {
-                throw new IllegalStateException("Empty embedding returned for model=" + modelName);
+            if (response == null || response.getEmbeddings() == null || response.getEmbeddings().isEmpty()) {
+                throw new IllegalStateException("No embeddings returned from service");
             }
 
-            float[] vector = new float[response.embedding.size()];
-            for (int i = 0; i < response.embedding.size(); i++) {
-                vector[i] = response.embedding.get(i).floatValue();
+            EmbeddingItem item = response.getEmbeddings().get(0);
+            List<Double> values = item.getVector();
+            if (values == null || values.isEmpty()) {
+                throw new IllegalStateException("Empty embedding vector");
             }
 
-            if (vector.length != expectedDim) {
-                log.warn("Embedding dimension mismatch for model='{}': expected={}, got={}",
-                        modelName, expectedDim, vector.length);
+            float[] vector = new float[values.size()];
+            for (int i = 0; i < values.size(); i++) {
+                vector[i] = values.get(i).floatValue();
             }
 
-            long elapsedMs = (System.nanoTime() - start) / 1_000_000;
-            log.debug("Embedding generated in {} ms using model={}", elapsedMs, modelName);
+            log.info("Embedding success: model={}, dim={}, len={}",
+                    response.getModel(), response.getEmbeddingDim(), vector.length);
 
             return vector;
 
         } catch (WebClientResponseException e) {
-            log.error("Embedding service HTTP error (status={}): {}",
-                    e.getStatusCode(), e.getResponseBodyAsString(), e);
-            throw new RuntimeException("Embedding service HTTP error: " + e.getMessage(), e);
+            log.error("Embedding service HTTP error: {} {}", e.getStatusCode(), e.getResponseBodyAsString());
         } catch (Exception e) {
-            log.error("Embedding service error: {}", e.toString(), e);
-            throw new RuntimeException("Embedding service error: " + e.getMessage(), e);
+            log.error("Embedding service call failed: {}", e.toString(), e);
         }
+        return new float[0];
     }
-
-    /**
-     * Request body sent to the embedding service.
-     * Adjust field names if your service uses a different contract.
-     */
-    private record EmbeddingRequest(String model, String provider, String text) {}
-
-    /**
-     * Response expected from the embedding service.
-     * Example JSON: { "embedding": [0.1, 0.2, ...] }
-     */
-    private record EmbeddingResponse(List<Double> embedding) {}
 
     public String getModelName() {
         return modelName;
@@ -125,9 +98,5 @@ public class EmbeddingClient {
 
     public String getProvider() {
         return provider;
-    }
-
-    public int getExpectedDim() {
-        return expectedDim;
     }
 }

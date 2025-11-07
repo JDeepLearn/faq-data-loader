@@ -37,8 +37,8 @@ class FaqUploaderServiceTest {
         indexManager = mock(VectorSearchIndexManager.class);
 
         // Default stubs
-        when(embeddingClient.getProvider()).thenReturn("intfloat");
-        when(embeddingClient.getModelName()).thenReturn("e5-large-v2");
+        when(embeddingClient.getProvider()).thenReturn("ibm-granite");
+        when(embeddingClient.getModelName()).thenReturn("granite-embedding-english-r2");
         when(embeddingClient.embed(anyString())).thenReturn(fakeVector(1024));
 
         service = new FaqUploaderService(

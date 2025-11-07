@@ -34,7 +34,7 @@ public class FaqUploaderService {
             EmbeddingClient embeddingClient,
             CouchbaseFaqRepository repository,
             VectorSearchIndexManager indexManager,
-            @Value("${embedding.dim:1024}") int embeddingDim,
+            @Value("${embedding.dim:768}") int embeddingDim,
             @Value("${uploader.threads:4}") int threads
     ) {
         this.embeddingClient = embeddingClient;

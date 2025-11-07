@@ -22,10 +22,10 @@ uploader:
   auto-run: ${UPLOADER_AUTO_RUN:true}
 
 embedding:
-  service-url: ${EMBEDDING_SERVICE_URL:http://localhost:8000/embed}
-  model-name: ${EMBEDDING_MODEL_NAME:e5-large-v2}
-  provider: ${EMBEDDING_PROVIDER:intfloat}
-  dim: ${EMBEDDING_DIM:1024}
+  service-url: ${EMBEDDING_SERVICE_URL:http://localhost:8000}
+  model-name: ${EMBEDDING_MODEL_NAME:granite-embedding-english-r2}
+  provider: ${EMBEDDING_PROVIDER:ibm-granite}
+  dim: ${EMBEDDING_DIM:768}
   timeout-ms: ${EMBEDDING_TIMEOUT_MS:5000}
 
 vector:

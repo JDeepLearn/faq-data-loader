@@ -20,9 +20,15 @@ curl -X POST "http://localhost:8094/api/index/faq_vectors/query" \
 }'
 
 
-curl -X POST http://localhost:8000/embed \
-     -H "Content-Type: application/json" \
-     -d '{"model":"e5-large-v2","provider":"intfloat","text":"How do I reset my password?"}'
+curl -X POST "http://localhost:8000/embed" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "inputs": ["How to reset my password?", "Submit an insurance claim online."]
+  }'
+
+  response
+{"model":"ibm-granite/granite-embedding-english-r2","model_version":"1.0.0","embedding_dim":768,
+"embeddings":[{"vector":[0.01138653326779604],"text":null,"index":1}],"metadata":{"request_id":"362594bf-0e95-4947-bceb-5186bdca5579","num_inputs":2,"total_chars":58},"generated_at":"2025-11-07T13:56:01.396092"}%
 
 
 curl -X POST "http://localhost:8094/api/index/faq_vectors/query" \
